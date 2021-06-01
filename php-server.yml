@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels: 
+    app: php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      name: php
+      labels:
+        app: php
+    spec:
+      containers:
+      - name: php
+        image: vimal13/apache-webserver-php
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: php-storage
+        ports:
+        - containerPort: 80
+          name: php-port
+      volumes:
+      - name: php-storage
+        persistentVolumeClaim:
+          claimName: php-pvc
